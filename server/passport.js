@@ -29,7 +29,14 @@ module.exports = function(app) {
 
   app.get(
     "/auth/google",
-    passport.authenticate("google", { scope: ["profile"] })
+    passport.authenticate(
+      "google",
+      // { scope: ["profile"] },
+
+      {
+        scope: ["https://www.googleapis.com/auth/plus.login", "profile"]
+      }
+    )
   );
 
   app.get(
