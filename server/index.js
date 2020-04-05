@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -11,9 +12,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-require("./services/passport");
-require("./routes/auth")(app);
-
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -23,14 +21,10 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => res.send("home"));
+require("./services/passport")(app);
+require("./routes/auth")(app);
 
-// passport.serializeUser((user, done) => {
-//   done(null, user);
-// });
-// passport.deserializeUser((user, done) => {
-//   done(null, user);
-// });
+app.get("/", (req, res) => res.send("home"));
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
