@@ -5,13 +5,13 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const User = require("../models/User");
 
-module.exports = app => {
+module.exports = (app) => {
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
-      cookie: { maxAge: 60 * 60 },
+      cookie: { maxAge: 60 * 60 * 24 },
       resave: true,
-      saveUninitialized: false
+      saveUninitialized: false,
     })
   );
 
@@ -37,9 +37,10 @@ module.exports = app => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.CALLBACK_URL
+        callbackURL: process.env.CALLBACK_URL,
+        proxy: true,
       },
-      async function(accessToken, refreshToken, profile, done) {
+      async function (accessToken, refreshToken, profile, done) {
         // find existing user
         const existingUser = await User.findOne({ googleId: profile.id });
         if (existingUser) {
