@@ -4,20 +4,27 @@ import { Link } from "react-router-dom";
 import { logout } from "../actions";
 
 function Header({ auth, logout }: any) {
-  const { isLoading, isAuthenticated } = auth;
+  const { isLoading, isAuthenticated, user } = auth;
   console.log(isAuthenticated);
+  console.log("what is user now? ", user);
 
   return (
     <nav>
-      <div className="menu-wrapper">
-        <Link to={isAuthenticated ? "create" : "/"}>Create</Link>
-        <div className="right">
-          {isAuthenticated ? (
-            <a onClick={logout}>Logout</a>
+      <div className="nav-wrapper">
+        <div className="nav-content">
+          {isLoading ? (
+            <div className="center">Loading..</div>
           ) : (
-            <a href="/auth/google">Login With Google</a>
+            <div className="right">
+              {isAuthenticated && user !== "" ? (
+                <a onClick={logout}>Logout</a>
+              ) : (
+                <a href="/auth/google">Login With Google</a>
+              )}
+            </div>
           )}
         </div>
+        <Link to={isAuthenticated ? "create" : "/"}>Create</Link>
       </div>
     </nav>
   );

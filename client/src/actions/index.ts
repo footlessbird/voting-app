@@ -5,6 +5,8 @@ export const fetchUser = () => async (dispatch: any) => {
   dispatch({ type: FETCH_USER });
   try {
     const res = await axios.get("/api/current_user");
+    console.log("user data", res.data);
+
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -16,7 +18,7 @@ export const fetchUser = () => async (dispatch: any) => {
 
 export const logout = () => async (dispatch: any) => {
   try {
-    const res = await axios.get("/api/logout");
+    await axios.get("/api/logout");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (err) {
     throw new Error(err);

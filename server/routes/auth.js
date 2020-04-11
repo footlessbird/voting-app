@@ -8,22 +8,18 @@ module.exports = (app) => {
     })
   );
 
-  // app.get(
-  //   "/auth/google",
-  //   passport.authenticate("google", {
-  //     scope: [
-  //       "https://www.googleapis.com/auth/plus.login",
-  //       ,
-  //       "https://www.googleapis.com/auth/plus.profile.emails.read",
-  //     ],
-  //   })
-  // );
-
-  app.get("/auth/google/callback", passport.authenticate("google"));
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google"),
+    (req, res) => {
+      res.redirect("/polls");
+    }
+  );
 
   app.get("/api/logout", (req, res) => {
+    console.log("logout route just hit");
     req.logout();
-    res.send(req.user);
+    res.redirect("/");
   });
 
   app.get("/api/current_user", (req, res) => {

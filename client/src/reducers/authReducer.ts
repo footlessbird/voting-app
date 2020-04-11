@@ -20,8 +20,10 @@ export default function (state = initialState, action: any) {
         ...state,
         isLoading: true,
         isAuthenticated: false,
+        user: null,
       };
     case USER_LOADED:
+      console.log("user should not be empty string", action.payload);
       return {
         ...state,
         isLoading: false,
