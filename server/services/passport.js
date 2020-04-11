@@ -1,17 +1,15 @@
 require("dotenv").config();
 const passport = require("passport");
-const session = require("express-session");
+const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const User = require("../models/User");
 
 module.exports = (app) => {
   app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      cookie: { maxAge: 60 * 60 * 24 },
-      resave: true,
-      saveUninitialized: false,
+    cookieSession({
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      keys: [process.env.COOKIE_SECRET],
     })
   );
 
@@ -37,7 +35,8 @@ module.exports = (app) => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.CALLBACK_URL,
+        // callbackURL: process.env.CALLBACK_URL,
+        callbackURL: "/auth/google/callback",
         proxy: true,
       },
       async function (accessToken, refreshToken, profile, done) {

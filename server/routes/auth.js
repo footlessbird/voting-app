@@ -1,21 +1,25 @@
 const passport = require("passport");
 
-module.exports = app => {
+module.exports = (app) => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
-      scope: ["profile", "email"]
+      scope: ["profile", "email"],
     })
   );
 
-  app.get(
-    "/auth/google/callback",
-    passport.authenticate("google")
-    // function(req, res) {
-    //   // Successful authentication, redirect home.
-    //   res.redirect("/");
-    // }
-  );
+  // app.get(
+  //   "/auth/google",
+  //   passport.authenticate("google", {
+  //     scope: [
+  //       "https://www.googleapis.com/auth/plus.login",
+  //       ,
+  //       "https://www.googleapis.com/auth/plus.profile.emails.read",
+  //     ],
+  //   })
+  // );
+
+  app.get("/auth/google/callback", passport.authenticate("google"));
 
   app.get("/api/logout", (req, res) => {
     req.logout();
