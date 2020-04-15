@@ -23,8 +23,12 @@ mongoose
 
 require("./services/passport")(app);
 require("./routes/auth")(app);
+require("./routes/poll")(app);
 
-app.get("/", (req, res) => res.send("home"));
+app.get("/", (req, res) => {
+  console.log(req.user);
+  res.send("home");
+});
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
