@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { fetchUser } from "../actions/index";
 import Header from "./Header";

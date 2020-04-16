@@ -1,29 +1,24 @@
-require("dotenv").config();
-
-const express = require("express");
-const cookieSession = require("cookie-session");
-const mongoose = require("mongoose");
-const passport = require("passport");
-const cors = require("cors");
-
-require("./services/passport")(passport);
-
-const app = express();
-const PORT = 5000;
-const routes = require("./routes");
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import cookieSession from "cookie-session";
+import mongoose from "mongoose";
+import passport from "passport";
+import "./services/passport";
+import routes from "./routes";
 
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
   })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
+
+const app = express();
+const PORT = 5000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(
   cookieSession({

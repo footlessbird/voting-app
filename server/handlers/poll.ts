@@ -1,6 +1,6 @@
-const Poll = require("../models/poll");
+import Poll from "../models/poll";
 
-exports.getPolls = async (req, res, next) => {
+const getPolls = async (req, res, next) => {
   try {
     console.log("req.user in poll handler", req.user);
     // const polls = await Poll.find();
@@ -11,3 +11,5 @@ exports.getPolls = async (req, res, next) => {
     });
   }
 };
+
+export default { getPolls };

@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+import { Schema, model } from "mongoose";
 
 const optionSchema = new Schema({
   option: String,
@@ -23,4 +22,5 @@ const pollSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Poll", pollSchema);
+const Poll = model("Poll", pollSchema);
+export default Poll;
