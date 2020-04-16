@@ -7,7 +7,7 @@ import Landing from "./Landing";
 
 function App({ fetchUser }: any) {
   useEffect(() => {
-    console.log(fetchUser());
+    fetchUser();
   }, []);
 
   return (

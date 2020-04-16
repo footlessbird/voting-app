@@ -4,7 +4,7 @@ import { FETCH_USER, USER_LOADED, AUTH_ERROR, LOGOUT_SUCCESS } from "./types";
 export const fetchUser = () => async (dispatch: any) => {
   dispatch({ type: FETCH_USER });
   try {
-    const res = await axios.get("/api/current_user");
+    const res = await axios.get("/auth/current_user");
     console.log("user data", res.data);
 
     dispatch({
@@ -18,7 +18,7 @@ export const fetchUser = () => async (dispatch: any) => {
 
 export const logout = () => async (dispatch: any) => {
   try {
-    await axios.get("/api/logout");
+    await axios.get("/auth/logout");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (err) {
     throw new Error(err);
