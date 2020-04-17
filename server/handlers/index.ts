@@ -1,7 +1,7 @@
 import auth from "./auth";
 import poll from "./poll";
 
-export = {
+export default {
   ...auth,
   ...poll,
 };
