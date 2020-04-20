@@ -28,12 +28,16 @@ passport.use(
       proxy: true,
     },
     async function (accessToken, refreshToken, profile, done) {
+      // console.log("porfile", profile.email);
       // find existing user
       const existingUser = await User.findOne({ googleId: profile.id });
       if (existingUser) {
         return done(null, existingUser);
       } else {
-        const newUser = await new User({ googleId: profile.id }).save();
+        const newUser = await new User({
+          googleId: profile.id,
+          email: profile.email,
+        }).save();
         return done(null, newUser);
       }
     }

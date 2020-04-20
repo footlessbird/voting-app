@@ -24,3 +24,9 @@ export const logout = () => async (dispatch: any) => {
     throw new Error(err);
   }
 };
+
+export const createPoll = (data: any) => async (dispatch: any) => {
+  try {
+    await axios.post("/polls/", data);
+  } catch (err) {}
+};
