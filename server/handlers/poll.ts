@@ -1,4 +1,5 @@
 import Poll from "../models/poll";
+import User from "../models/user";
 
 const getPolls = async (req, res, next) => {
   try {
@@ -37,4 +38,24 @@ const createPoll = async (req, res, next) => {
   }
 };
 
-export default { getPolls, createPoll };
+/*
+app.get('/api/my_polls', requireLogin, async (req, res) => {
+  const polls = await Poll.find({ _user: req.user.id });
+  // console.log(req.user);
+  res.send(polls);
+});
+*/
+
+const usersPolls = async (req, res, next) => {
+  try {
+    const myPolls = await Poll.find({ user: req.user.id });
+    return res.status(200).json(myPolls);
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+export default { getPolls, createPoll, usersPolls };
