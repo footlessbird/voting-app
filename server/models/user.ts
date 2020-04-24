@@ -1,4 +1,10 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
+
+export type IUser = Document & {
+  googleId: string;
+  email: string;
+  polls: Schema.Types.ObjectId[];
+};
 
 const userSchema = new Schema({
   googleId: String,
@@ -6,6 +12,6 @@ const userSchema = new Schema({
   polls: [{ type: Schema.Types.ObjectId, ref: "Poll" }],
 });
 
-const User = model("User", userSchema);
+const User = model<IUser>("User", userSchema);
 
 export default User;

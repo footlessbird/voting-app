@@ -38,14 +38,6 @@ const createPoll = async (req, res, next) => {
   }
 };
 
-/*
-app.get('/api/my_polls', requireLogin, async (req, res) => {
-  const polls = await Poll.find({ _user: req.user.id });
-  // console.log(req.user);
-  res.send(polls);
-});
-*/
-
 const usersPolls = async (req, res, next) => {
   try {
     const myPolls = await Poll.find({ user: req.user.id });
@@ -58,4 +50,84 @@ const usersPolls = async (req, res, next) => {
   }
 };
 
-export default { getPolls, createPoll, usersPolls };
+const getPoll = async (req, res, next) => {
+  const pollId = req.params.id.toString();
+  try {
+    console.log("pollId", req.params.id);
+    const poll = await Poll.findById(pollId);
+    if (!poll) throw new Error("No such poll found");
+    console.log("poll ", poll);
+    return res.status(200).json(poll);
+  } catch (err) {
+    console.error(err);
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+const vote = async (req, res, next) => {
+  const pollId = req.params.id.toString();
+  const { vote } = req.body;
+  try {
+    if (vote) {
+      const poll = await Poll.findById(pollId);
+      if (!poll) throw new Error("No such poll found");
+
+      const votedOption = poll.options.map((data) =>
+        data.option === vote
+          ? {
+              option: data.option,
+              votes: data.votes + 1,
+            }
+          : data
+      );
+
+      if (
+        poll.voted.filter((user) => user.toString() === req.user.id).length <= 0
+      ) {
+        poll.voted.push(req.user.id);
+        poll.options = votedOption;
+        await poll.save();
+        return res.status(202).json(poll);
+      } else {
+        throw new Error("Already voted");
+      }
+    } else {
+      throw new Error("No vote");
+    }
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+const deletePoll = async (req, res, next) => {
+  const pollId = req.params.id.toString();
+  const { user } = req;
+  try {
+    if (user.polls) {
+      user.polls = user.polls.filter((userPoll) => {
+        return userPoll.id.toString() !== pollId.toString();
+      });
+    }
+    const poll = await Poll.findById(pollId);
+    if (!poll) throw new Error("No such poll found");
+    if (poll.user.toString() !== user.id) {
+      throw new Error("Unauthorized access");
+    }
+    await user.save();
+    await poll.remove();
+    return res.status(202).json({ poll, deleted: true });
+  } catch (err) {
+    return next({
+      status: 400,
+      messasge: err.message,
+    });
+  }
+};
+
+export default { getPolls, createPoll, usersPolls, getPoll, vote, deletePoll };
