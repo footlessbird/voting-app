@@ -30,7 +30,7 @@ function Header({ auth, logout }: any) {
   );
 }
 
-function mapStateToProps({ auth }: any) {
+function mapStateToProps({ auth }) {
   return {
     auth,
   };

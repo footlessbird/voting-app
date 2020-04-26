@@ -5,8 +5,9 @@ import { fetchUser } from "../actions/index";
 import Header from "./Header";
 import Landing from "./Landing";
 import CreatePoll from "./CreatePoll";
+import Polls from "./Polls";
 
-function App({ fetchUser }: any) {
+function App({ fetchUser }) {
   useEffect(() => {
     fetchUser();
   }, []);
@@ -15,12 +16,11 @@ function App({ fetchUser }: any) {
     <div className="container">
       <Router>
         <Header />
-        {/* <Route exact path="/" component={Landing} /> */}
-        <Route exact path="/" component={CreatePoll} />
+        <Route exact path="/" component={Polls} />
+        {/* <Route exact path="/" component={CreatePoll} /> */}
       </Router>
     </div>
   );
 }
 
-// export default App;
 export default connect(null, { fetchUser })(App);
