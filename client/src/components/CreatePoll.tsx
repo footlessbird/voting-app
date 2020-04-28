@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createPoll } from "../actions/index";
 
 type IValues = {
@@ -7,25 +7,26 @@ type IValues = {
   options: string[];
 };
 
-function CreatePoll({ createPoll }: any) {
+function CreatePoll() {
+  const dispatch = useDispatch();
   const [values, setValues] = useState<IValues>({
     question: "",
     options: ["", ""],
   });
 
-  function handleChange(e: any) {
+  function handleChange(e) {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
     });
   }
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e) {
     e.preventDefault();
-    createPoll(values);
+    dispatch(createPoll(values));
   }
 
-  function handleOption(e: any, index: number) {
+  function handleOption(e, index) {
     const options = [...values.options];
     options[index] = e.target.value;
     setValues({ ...values, options });
@@ -38,7 +39,7 @@ function CreatePoll({ createPoll }: any) {
     });
   }
 
-  const renderOptions: any = values.options.map((option, i) => (
+  const renderOptions = values.options.map((option, i) => (
     <input
       className="form-input"
       type="text"
@@ -69,4 +70,4 @@ function CreatePoll({ createPoll }: any) {
   );
 }
 
-export default connect(null, { createPoll })(CreatePoll);
+export default CreatePoll;

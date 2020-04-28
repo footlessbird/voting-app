@@ -3,7 +3,7 @@ import User from "../models/user";
 
 const getPolls = async (req, res, next) => {
   try {
-    console.log("req.user in poll handler", req.user);
+    // console.log("req.user in poll handler", req.user);
     const polls = await Poll.find();
     return res.status(200).json(polls);
   } catch (err) {
@@ -39,6 +39,7 @@ const createPoll = async (req, res, next) => {
 };
 
 const usersPolls = async (req, res, next) => {
+  console.log("usersPolls invoked");
   try {
     const myPolls = await Poll.find({ user: req.user.id });
     return res.status(200).json(myPolls);
@@ -51,6 +52,7 @@ const usersPolls = async (req, res, next) => {
 };
 
 const getPoll = async (req, res, next) => {
+  console.log("getPoll invoked");
   const pollId = req.params.id.toString();
   try {
     console.log("pollId", req.params.id);
@@ -92,12 +94,14 @@ const vote = async (req, res, next) => {
         await poll.save();
         return res.status(202).json(poll);
       } else {
+        console.log("Already voted");
         throw new Error("Already voted");
       }
     } else {
       throw new Error("No vote");
     }
   } catch (err) {
+    console.error(err);
     return next({
       status: 400,
       message: err.message,

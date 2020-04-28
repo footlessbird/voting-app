@@ -1,9 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../actions";
+import { RootState } from "../reducers";
 
-function Header({ auth, logout }: any) {
+function Header() {
+  const dispatch = useDispatch();
+  const auth = useSelector((state: RootState) => state.auth);
   const { isLoading, isAuthenticated, user } = auth;
   console.log(isAuthenticated);
   console.log("what is user now? ", user);
@@ -17,7 +20,7 @@ function Header({ auth, logout }: any) {
           ) : (
             <div className="right">
               {isAuthenticated && user !== "" ? (
-                <a onClick={logout}>Logout</a>
+                <a onClick={() => dispatch(logout())}>Logout</a>
               ) : (
                 <a href="/auth/google">Login With Google</a>
               )}
@@ -30,10 +33,4 @@ function Header({ auth, logout }: any) {
   );
 }
 
-function mapStateToProps({ auth }) {
-  return {
-    auth,
-  };
-}
-
-export default connect(mapStateToProps, { logout })(Header);
+export default Header;

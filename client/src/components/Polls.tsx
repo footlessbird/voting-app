@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { getPolls, getUserPolls, getCurrentPoll } from "../actions";
+import { RootState } from "../reducers";
 
 // function Polls({ auth, polls, getPolls, getUserPolls }) {
 function Polls() {
   const dispatch = useDispatch();
-  const polls = useSelector((state) => state.polls.data);
+  const polls = useSelector((state: RootState) => state.polls);
+
   useEffect(() => {
     dispatch(getPolls());
     // getPolls();
@@ -15,7 +18,7 @@ function Polls() {
     polls &&
     polls.map((poll) => (
       <li key={poll._id} onClick={() => dispatch(getCurrentPoll(poll._id))}>
-        {poll.question}
+        <Link to={`/polls/${poll._id}`}>{poll.question}</Link>
       </li>
     ));
 

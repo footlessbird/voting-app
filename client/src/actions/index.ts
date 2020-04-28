@@ -8,6 +8,28 @@ import {
   SET_CURRENT_POLL,
 } from "./types";
 
+type Option = {
+  option: string;
+  votes: number;
+};
+
+export type Poll = {
+  _id: string;
+  user: string;
+  question: string;
+  option: Option[];
+  voted: string[];
+  createdAt: string;
+};
+
+// export type PollAction =
+//   | ReturnType<typeof setPolls>
+//   | ReturnType<typeof setCurrentPoll>;
+
+export type PollAction =
+  | { type: "SET_POLLS"; polls: Poll[] }
+  | { type: "SET_CURRENT_POLL"; poll: Poll };
+
 export const fetchUser = () => async (dispatch) => {
   dispatch({ type: FETCH_USER });
   try {
@@ -45,7 +67,7 @@ export const setCurrentPoll = (poll) => ({
 export const getPolls = () => async (dispatch) => {
   try {
     const polls = await axios.get("/polls");
-    dispatch(setPolls(polls));
+    dispatch(setPolls(polls.data));
   } catch (err) {
     console.error(err);
   }
@@ -54,7 +76,7 @@ export const getPolls = () => async (dispatch) => {
 export const getUserPolls = () => async (dispatch) => {
   try {
     const polls = await axios.get("/polls/user");
-    dispatch(setPolls(polls));
+    dispatch(setPolls(polls.data));
   } catch (err) {
     console.error(err);
   }
@@ -62,8 +84,8 @@ export const getUserPolls = () => async (dispatch) => {
 
 export const getCurrentPoll = (path) => async (dispatch) => {
   try {
-    const poll = await axios.get(`polls/${path}`);
-    dispatch(setCurrentPoll(poll));
+    const poll = await axios.get(`/polls/${path}`);
+    dispatch(setCurrentPoll(poll.data));
   } catch (err) {
     console.error(err);
   }
@@ -72,7 +94,7 @@ export const getCurrentPoll = (path) => async (dispatch) => {
 export const createPoll = (data) => async (dispatch) => {
   try {
     const poll = await axios.post("/polls", data);
-    dispatch(setCurrentPoll(poll));
+    dispatch(setCurrentPoll(poll.data));
   } catch (err) {
     console.error(err);
   }
@@ -81,7 +103,7 @@ export const createPoll = (data) => async (dispatch) => {
 export const vote = (path, data) => async (dispatch) => {
   try {
     const poll = await axios.post(`/polls/${path}`, data);
-    dispatch(setCurrentPoll(poll));
+    dispatch(setCurrentPoll(poll.data));
   } catch (err) {
     console.error(err);
   }
