@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createPoll } from "../actions/index";
 
@@ -8,6 +8,8 @@ type IValues = {
 };
 
 function CreatePoll() {
+  // console.log("CreatePoll props ", props);
+
   const dispatch = useDispatch();
   const [values, setValues] = useState<IValues>({
     question: "",
@@ -41,7 +43,7 @@ function CreatePoll() {
 
   const renderOptions = values.options.map((option, i) => (
     <input
-      className="form-input"
+      placeholder="Type an option.."
       type="text"
       value={option}
       key={i}

@@ -12,7 +12,7 @@ const initialState = {
   error: null,
 };
 
-export default function (state = initialState, action: any) {
+export default function (state = initialState, action) {
   console.log("action", action);
   switch (action.type) {
     case FETCH_USER:
@@ -27,7 +27,7 @@ export default function (state = initialState, action: any) {
       return {
         ...state,
         isLoading: false,
-        isAuthenticated: true,
+        isAuthenticated: action.payload === "" ? false : true,
         user: action.payload,
       };
     case AUTH_ERROR:

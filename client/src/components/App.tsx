@@ -1,29 +1,41 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { fetchUser, getCurrentPoll } from "../actions/index";
 import Header from "./Header";
-import Landing from "./Landing";
 import CreatePoll from "./CreatePoll";
 import Polls from "./Polls";
 import Poll from "./Poll";
+import { RootState } from "../reducers";
 
-// function App({ fetchUser }) {
 function App() {
   const dispatch = useDispatch();
+  const auth = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = auth;
+
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
-
+  console.log("R u authenticated? ", isAuthenticated);
   return (
     <div className="container">
       <Router>
-        <Header />
+        <Header auth={auth} />
         <Switch>
           <Route exact path="/" component={Polls} />
           <Route
             exact
-            path="/polls/:id"
+            path="/poll/new"
+            render={() => (isAuthenticated ? <CreatePoll /> : <Test />)}
+          />
+          <Route
+            exact
+            path="/poll/:id"
             render={(props) => (
               <Poll getPoll={(id) => dispatch(getCurrentPoll(id))} {...props} />
             )}
@@ -34,5 +46,8 @@ function App() {
   );
 }
 
-// export default connect(null, { fetchUser })(App);
+function Test() {
+  return <h1>Please login to proceed</h1>;
+}
+
 export default App;

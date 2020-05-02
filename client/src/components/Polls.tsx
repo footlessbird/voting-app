@@ -4,29 +4,25 @@ import { Link } from "react-router-dom";
 import { getPolls, getUserPolls, getCurrentPoll } from "../actions";
 import { RootState } from "../reducers";
 
-// function Polls({ auth, polls, getPolls, getUserPolls }) {
 function Polls() {
   const dispatch = useDispatch();
   const polls = useSelector((state: RootState) => state.polls);
 
   useEffect(() => {
     dispatch(getPolls());
-    // getPolls();
   }, []);
   console.log("polls ", polls);
   const renderPolls =
     polls &&
     polls.map((poll) => (
       <li key={poll._id} onClick={() => dispatch(getCurrentPoll(poll._id))}>
-        <Link to={`/polls/${poll._id}`}>{poll.question}</Link>
+        <Link to={`/poll/${poll._id}`}>{poll.question}</Link>
       </li>
     ));
 
   return (
     <>
       <div>
-        {/* <button onClick={getPolls}>All polls</button>
-        <button onClick={getUserPolls}>My polls</button> */}
         <button onClick={() => dispatch(getPolls())}>All polls</button>
         <button onClick={() => dispatch(getUserPolls())}>My polls</button>
       </div>
@@ -34,14 +30,5 @@ function Polls() {
     </>
   );
 }
-
-// function mapStateToProps({ auth, polls }) {
-//   return {
-//     auth,
-//     polls,
-//   };
-// }
-
-// export default connect(mapStateToProps, { getPolls, getUserPolls })(Polls);
 
 export default Polls;

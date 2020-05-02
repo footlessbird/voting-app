@@ -5,7 +5,7 @@ import { requireLogin } from "../middleware/requireLogin";
 const router = Router();
 const { getPolls, createPoll, usersPolls, getPoll, vote, deletePoll } = handle;
 
-router.get("/", getPolls).post("/", requireLogin, createPoll);
+router.route("/").get(getPolls).post(requireLogin, createPoll);
 
 router.get("/user", requireLogin, usersPolls);
 

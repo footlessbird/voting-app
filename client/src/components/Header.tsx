@@ -2,14 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../actions";
-import { RootState } from "../reducers";
 
-function Header() {
-  const dispatch = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth);
+function Header({ auth }) {
   const { isLoading, isAuthenticated, user } = auth;
-  console.log(isAuthenticated);
-  console.log("what is user now? ", user);
+  const dispatch = useDispatch();
 
   return (
     <nav>
@@ -27,7 +23,7 @@ function Header() {
             </div>
           )}
         </div>
-        <Link to={isAuthenticated ? "create" : "/"}>Create</Link>
+        {/* <Link to={isAuthenticated ? "create" : "/"}>Create</Link> */}
       </div>
     </nav>
   );
