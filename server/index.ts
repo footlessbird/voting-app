@@ -7,6 +7,14 @@ import passport from "passport";
 import "./services/passport";
 import routes from "./routes";
 
+type IResponse = {
+  [key: string]: any;
+};
+
+type IError = {
+  [key: string]: any;
+};
+
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -33,6 +41,30 @@ app.use(passport.session());
 
 app.use("/auth", routes.auth);
 app.use("/polls", routes.poll);
+
+app.use((req, res, next) => {
+  let err: IError = new Error("Not Found 🤔");
+  err.status = 404;
+  next(err);
+});
+
+// module.exports.error = (err, req, res, next) => {
+//   return res.status(err.status || 500).json({
+//     success: false,
+//     error: {
+//       message: err.message || 'Something went wrong.',
+//     },
+//   });
+// };
+
+app.use((err: IError, req, res: IResponse) => {
+  res.status(err.status || 500).json({
+    success: false,
+    error: {
+      message: err.message || "Something went wrong.",
+    },
+  });
+});
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)

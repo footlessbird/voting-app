@@ -1,12 +1,13 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import { polls, currentPoll } from "./pollReducer";
-// import { DefaultRootState } from "react-redux";
+import errorReducer from "./errorReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   polls,
   currentPoll,
+  error: errorReducer,
 });
 
 export default rootReducer;

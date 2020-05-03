@@ -6,7 +6,11 @@ import {
   LOGOUT_SUCCESS,
   SET_POLLS,
   SET_CURRENT_POLL,
+  ADD_ERROR,
+  REMOVE_ERROR,
 } from "./types";
+
+import { addError, removeError } from "./errorAction";
 
 type Option = {
   option: string;
@@ -41,7 +45,17 @@ export const fetchUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err });
+    // console.log(
+    //   "errrrr",
+    //   err.config,
+    //   err.request,
+    //   err.response,
+    //   err.isAxiosError,
+    //   err.toJSON
+    // );
+    console.log("errrr", err.response.data);
+    // dispatch({ type: AUTH_ERROR, payload: err });
+    dispatch(addError(err.response.data));
   }
 };
 
@@ -105,6 +119,7 @@ export const vote = (path, data) => async (dispatch) => {
     const poll = await axios.post(`/polls/${path}`, data);
     dispatch(setCurrentPoll(poll.data));
   } catch (err) {
-    console.error(err);
+    console.error("vote action error ", err.response.data);
+    dispatch(addError(err.response.data));
   }
 };

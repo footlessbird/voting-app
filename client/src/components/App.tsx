@@ -11,6 +11,7 @@ import Header from "./Header";
 import CreatePoll from "./CreatePoll";
 import Polls from "./Polls";
 import Poll from "./Poll";
+import ErrorMessage from "./ErrorMessage";
 import { RootState } from "../reducers";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     <div className="container">
       <Router>
         <Header auth={auth} />
+        <ErrorMessage />
         <Switch>
           <Route exact path="/" component={Polls} />
           <Route

@@ -72,41 +72,43 @@ const getPoll = async (req, res, next) => {
 const vote = async (req, res, next) => {
   const pollId = req.params.id.toString();
   const { vote } = req.body;
-  try {
-    if (vote) {
-      const poll = await Poll.findById(pollId);
-      if (!poll) throw new Error("No such poll found");
+  // try {
+  if (vote) {
+    const poll = await Poll.findById(pollId);
+    if (!poll) throw new Error("No such poll found");
 
-      const votedOption = poll.options.map((data) =>
-        data.option === vote
-          ? {
-              option: data.option,
-              votes: data.votes + 1,
-            }
-          : data
-      );
+    const votedOption = poll.options.map((data) =>
+      data.option === vote
+        ? {
+            option: data.option,
+            votes: data.votes + 1,
+          }
+        : data
+    );
 
-      if (
-        poll.voted.filter((user) => user.toString() === req.user.id).length <= 0
-      ) {
-        poll.voted.push(req.user.id);
-        poll.options = votedOption;
-        await poll.save();
-        return res.status(202).json(poll);
-      } else {
-        console.log("Already voted");
-        throw new Error("Already voted");
-      }
+    if (
+      poll.voted.filter((user) => user.toString() === req.user.id).length <= 0
+    ) {
+      poll.voted.push(req.user.id);
+      poll.options = votedOption;
+      await poll.save();
+      return res.status(202).json(poll);
     } else {
-      throw new Error("No vote");
+      // throw new Error("Already voted");
+      console.log("already voted");
+      return res.status(400).json("Already voted");
     }
-  } catch (err) {
-    console.error(err);
-    return next({
-      status: 400,
-      message: err.message,
-    });
+  } else {
+    // throw new Error("No vote provided");
+    console.log("no vote provided");
+    return res.status(400).json("No vote provided");
   }
+  // } catch (err) {
+  // return next({
+  //   status: 400,
+  //   message: err.message,
+  // });
+  // }
 };
 
 const deletePoll = async (req, res, next) => {
