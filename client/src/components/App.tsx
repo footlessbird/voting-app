@@ -6,11 +6,14 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { fetchUser, getCurrentPoll } from "../actions/index";
+
+import { fetchUser, getCurrentPoll } from "../actions";
+
 import Header from "./Header";
 import CreatePoll from "./CreatePoll";
 import Polls from "./Polls";
 import Poll from "./Poll";
+import RequireLogin from "./RequireLogin";
 import ErrorMessage from "./ErrorMessage";
 import { RootState } from "../reducers";
 
@@ -29,11 +32,15 @@ function App() {
         <Header auth={auth} />
         <ErrorMessage />
         <Switch>
-          <Route exact path="/" component={Polls} />
+          <Route
+            exact
+            path="/"
+            render={() => <Polls isAuthenticated={isAuthenticated} />}
+          />
           <Route
             exact
             path="/poll/new"
-            render={() => (isAuthenticated ? <CreatePoll /> : <Test />)}
+            render={() => (isAuthenticated ? <CreatePoll /> : <RequireLogin />)}
           />
           <Route
             exact
@@ -46,10 +53,6 @@ function App() {
       </Router>
     </div>
   );
-}
-
-function Test() {
-  return <h1>Please login to proceed</h1>;
 }
 
 export default App;

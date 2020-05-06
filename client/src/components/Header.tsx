@@ -14,13 +14,18 @@ function Header({ auth }) {
           {isLoading ? (
             <div className="center">Loading..</div>
           ) : (
-            <div className="right">
-              {isAuthenticated && user !== "" ? (
-                <a onClick={() => dispatch(logout())}>Logout</a>
-              ) : (
-                <a href="/auth/google">Login With Google</a>
-              )}
-            </div>
+            [
+              <div className="left">
+                <Link to="/">Home</Link>
+              </div>,
+              <div className="right">
+                {isAuthenticated && user !== "" ? (
+                  <a onClick={() => dispatch(logout())}>Logout</a>
+                ) : (
+                  <a href="/auth/google">Login With Google</a>
+                )}
+              </div>,
+            ]
           )}
         </div>
         {/* <Link to={isAuthenticated ? "create" : "/"}>Create</Link> */}

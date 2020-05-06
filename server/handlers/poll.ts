@@ -3,14 +3,18 @@ import User from "../models/user";
 
 const getPolls = async (req, res, next) => {
   try {
-    // console.log("req.user in poll handler", req.user);
     const polls = await Poll.find();
+    console.log("getPolls invoked");
     return res.status(200).json(polls);
   } catch (err) {
+    console.log("getPolls err ", err);
     return next({
       status: 400,
       message: err.message,
     });
+    // next를 쓰지 않고 아래와 같이 에러를 전송할 수도 있다
+    // server/index.js의 에러처리 미들웨어로 전송됨 err, req, res, next 4개의 인자를 받는 콜백함수
+    // return res.status(400).json("Cannot get polls mate :(");
   }
 };
 
@@ -58,7 +62,7 @@ const getPoll = async (req, res, next) => {
     console.log("pollId", req.params.id);
     const poll = await Poll.findById(pollId);
     if (!poll) throw new Error("No such poll found");
-    console.log("poll ", poll);
+    // console.log("poll ", poll);
     return res.status(200).json(poll);
   } catch (err) {
     console.error(err);
@@ -72,43 +76,43 @@ const getPoll = async (req, res, next) => {
 const vote = async (req, res, next) => {
   const pollId = req.params.id.toString();
   const { vote } = req.body;
-  // try {
-  if (vote) {
-    const poll = await Poll.findById(pollId);
-    if (!poll) throw new Error("No such poll found");
+  try {
+    if (vote) {
+      const poll = await Poll.findById(pollId);
+      if (!poll) throw new Error("No such poll found");
 
-    const votedOption = poll.options.map((data) =>
-      data.option === vote
-        ? {
-            option: data.option,
-            votes: data.votes + 1,
-          }
-        : data
-    );
+      const votedOption = poll.options.map((data) =>
+        data.option === vote
+          ? {
+              option: data.option,
+              votes: data.votes + 1,
+            }
+          : data
+      );
 
-    if (
-      poll.voted.filter((user) => user.toString() === req.user.id).length <= 0
-    ) {
-      poll.voted.push(req.user.id);
-      poll.options = votedOption;
-      await poll.save();
-      return res.status(202).json(poll);
+      if (
+        poll.voted.filter((user) => user.toString() === req.user.id).length <= 0
+      ) {
+        poll.voted.push(req.user.id);
+        poll.options = votedOption;
+        await poll.save();
+        return res.status(202).json(poll);
+      } else {
+        throw new Error("Already voted");
+        // console.log("already voted");
+        // return res.status(400).json("Already voted");
+      }
     } else {
-      // throw new Error("Already voted");
-      console.log("already voted");
-      return res.status(400).json("Already voted");
+      throw new Error("No vote provided");
+      // console.log("no vote provided");
+      // return res.status(400).json("No vote provided");
     }
-  } else {
-    // throw new Error("No vote provided");
-    console.log("no vote provided");
-    return res.status(400).json("No vote provided");
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
   }
-  // } catch (err) {
-  // return next({
-  //   status: 400,
-  //   message: err.message,
-  // });
-  // }
 };
 
 const deletePoll = async (req, res, next) => {

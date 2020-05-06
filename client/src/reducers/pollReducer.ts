@@ -1,5 +1,5 @@
 import { SET_POLLS, SET_CURRENT_POLL } from "../actions/types";
-import { Poll, PollAction } from "../actions";
+import { Poll, PollAction } from "../actions/types";
 
 export function polls(state: Poll[] = [], action: PollAction) {
   switch (action.type) {

@@ -46,18 +46,11 @@ app.use((req, res, next) => {
   let err: IError = new Error("Not Found 🤔");
   err.status = 404;
   next(err);
+  // res.status(404).send("Page not found 🤔");
 });
 
-// module.exports.error = (err, req, res, next) => {
-//   return res.status(err.status || 500).json({
-//     success: false,
-//     error: {
-//       message: err.message || 'Something went wrong.',
-//     },
-//   });
-// };
-
-app.use((err: IError, req, res: IResponse) => {
+// err는 핸들러내 api 함수들 try/catch(err)에서 넘어온 친구
+app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     success: false,
     error: {

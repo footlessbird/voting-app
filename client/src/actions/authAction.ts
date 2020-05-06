@@ -14,8 +14,10 @@ export const fetchUser = () => async (dispatch) => {
     });
     dispatch(removeError());
   } catch (err) {
-    console.log("errrrrrr ", err);
+    console.log("fetchUser err ", err);
     dispatch({ type: AUTH_ERROR, payload: err });
+    const errMsg = err.response.data.error.message;
+    dispatch(addError(errMsg));
   }
 };
 
@@ -23,7 +25,10 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.get("/auth/logout");
     dispatch({ type: LOGOUT_SUCCESS });
+    dispatch(removeError());
   } catch (err) {
-    throw new Error(err);
+    // throw new Error(err);
+    const errMsg = err.response.data.error.message;
+    dispatch(addError(errMsg));
   }
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createPoll } from "../actions/index";
+import { createPoll } from "../actions";
 
 type IValues = {
   question: string;

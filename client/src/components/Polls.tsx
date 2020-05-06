@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getPolls, getUserPolls, getCurrentPoll } from "../actions";
 import { RootState } from "../reducers";
 
-function Polls() {
+function Polls({ isAuthenticated }) {
   const dispatch = useDispatch();
   const polls = useSelector((state: RootState) => state.polls);
 
@@ -23,8 +23,16 @@ function Polls() {
   return (
     <>
       <div>
+        {isAuthenticated ? (
+          <button>
+            <Link to="poll/new">New</Link>
+          </button>
+        ) : null}
+
         <button onClick={() => dispatch(getPolls())}>All polls</button>
-        <button onClick={() => dispatch(getUserPolls())}>My polls</button>
+        {isAuthenticated ? (
+          <button onClick={() => dispatch(getUserPolls())}>My polls</button>
+        ) : null}
       </div>
       <ul>{renderPolls}</ul>
     </>
