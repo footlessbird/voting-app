@@ -9,7 +9,6 @@ type IValues = {
 
 function CreatePoll() {
   // console.log("CreatePoll props ", props);
-
   const dispatch = useDispatch();
   const [values, setValues] = useState<IValues>({
     question: "",
@@ -43,6 +42,7 @@ function CreatePoll() {
 
   const renderOptions = values.options.map((option, i) => (
     <input
+      className="form-input"
       placeholder="Type an option.."
       type="text"
       value={option}
@@ -52,23 +52,31 @@ function CreatePoll() {
   ));
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Type a question.."
-          type="text"
-          name="question"
-          value={values.question}
-          onChange={handleChange}
-        />
-        <div>{renderOptions}</div>
-
-        <button type="button" onClick={addOption}>
+    <form className="form" onSubmit={handleSubmit}>
+      <label className="form-label" htmlFor="question">
+        Question
+      </label>
+      <input
+        className="form-input"
+        placeholder="Type a question.."
+        type="text"
+        name="question"
+        value={values.question}
+        onChange={handleChange}
+      />
+      <label className="form-label" htmlFor="option">
+        Option
+      </label>
+      <div>{renderOptions}</div>
+      <div className="buttons_center">
+        <button className="button" type="button" onClick={addOption}>
           Add option
         </button>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+        <button className="button" type="submit">
+          Submit
+        </button>
+      </div>
+    </form>
   );
 }
 

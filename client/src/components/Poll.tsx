@@ -48,7 +48,7 @@ function Poll(props) {
 
   return (
     <div>
-      <h3>{poll.question}</h3>
+      <h3 className="poll-title">{poll.question}</h3>
       <div>{options}</div>
       <Pie data={chartData} />
     </div>

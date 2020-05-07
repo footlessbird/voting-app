@@ -16,25 +16,31 @@ function Polls({ isAuthenticated }) {
     polls &&
     polls.map((poll) => (
       <li key={poll._id} onClick={() => dispatch(getCurrentPoll(poll._id))}>
-        <Link to={`/poll/${poll._id}`}>{poll.question}</Link>
+        <Link style={{ textDecoration: "none" }} to={`/poll/${poll._id}`}>
+          {poll.question}
+        </Link>
       </li>
     ));
 
   return (
     <>
-      <div>
+      <div className="row">
         {isAuthenticated ? (
-          <button>
-            <Link to="poll/new">New</Link>
-          </button>
+          <Link className="button" to="poll/new">
+            New
+          </Link>
         ) : null}
 
-        <button onClick={() => dispatch(getPolls())}>All polls</button>
+        <button className="button" onClick={() => dispatch(getPolls())}>
+          All polls
+        </button>
         {isAuthenticated ? (
-          <button onClick={() => dispatch(getUserPolls())}>My polls</button>
+          <button className="button" onClick={() => dispatch(getUserPolls())}>
+            My polls
+          </button>
         ) : null}
       </div>
-      <ul>{renderPolls}</ul>
+      <ul className="polls">{renderPolls}</ul>
     </>
   );
 }

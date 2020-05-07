@@ -8,17 +8,19 @@ function Header({ auth }) {
   const dispatch = useDispatch();
 
   return (
-    <nav>
-      <div className="nav-wrapper">
-        <div className="nav-content">
+    <header className="header">
+      <div className="header-wrapper">
+        <div className="header-content">
           {isLoading ? (
             <div className="center">Loading..</div>
           ) : (
             [
-              <div className="left">
-                <Link to="/">Home</Link>
+              <div>
+                <Link className="header-brand" to="/">
+                  Home
+                </Link>
               </div>,
-              <div className="right">
+              <div className="header-item">
                 {isAuthenticated && user !== "" ? (
                   <a onClick={() => dispatch(logout())}>Logout</a>
                 ) : (
@@ -30,7 +32,7 @@ function Header({ auth }) {
         </div>
         {/* <Link to={isAuthenticated ? "create" : "/"}>Create</Link> */}
       </div>
-    </nav>
+    </header>
   );
 }
 
