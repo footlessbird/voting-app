@@ -10,7 +10,7 @@
     "heroku-postbuild": "cd client && NPM_CONFIG_PRODUCTION=false npm install && npm run build && cd ../server && NPM_CONFIG_PRODUCTION=false npm install && npm run build",
     "server": "cd server && npm start",
     "client": "cd client && npm start",
-    "start": "npm run server"
+    "start": "cd client && NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "repository": {
     "type": "git",
