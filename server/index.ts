@@ -43,12 +43,12 @@ app.use(passport.session());
 app.use("/auth", routes.auth);
 app.use("/polls", routes.poll);
 
-app.use((req, res, next) => {
-  let err: IError = new Error("Not Found 🤔");
-  err.status = 404;
-  next(err);
-  // res.status(404).send("Page not found 🤔");
-});
+// app.use((req, res, next) => {
+//   let err: IError = new Error("Not Found 🤔");
+//   err.status = 404;
+//   next(err);
+//   // res.status(404).send("Page not found 🤔");
+// });
 
 // err는 핸들러내 api 함수들 try/catch(err)에서 넘어온 친구
 app.use((err, req, res, next) => {
