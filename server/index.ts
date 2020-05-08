@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import "./services/passport";
 import routes from "./routes";
+import path from "path";
 
 type IResponse = {
   [key: string]: any;
@@ -24,7 +25,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -57,6 +58,14 @@ app.use((err, req, res, next) => {
       message: err.message || "Something went wrong.",
     },
   });
+});
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 app.listen(PORT, () =>

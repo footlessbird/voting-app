@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsnd index.ts"
+    "start": "npm run build && ([[ $NODE_ENV == 'production' ]] && node dist/index.js)",
+    "dev": "tsnd index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

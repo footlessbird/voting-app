@@ -1,0 +1,26 @@
+{
+  "name": "voting-app",
+  "version": "1.0.0",
+  "description": "https://www.freecodecamp.org/learn/coding-interview-prep/take-home-projects/build-a-voting-app",
+  "engines": {
+    "node": "13.8.0",
+    "npm": "6.13.7"
+  },
+  "scripts": {
+    "start": "cd server && npm start",
+    "postinstall": "npm run postinstall:server && npm run postinstall:client",
+    "postinstall:server": "cd server && npm install --production=false && npm run build",
+    "postinstall:client": "cd client && npm install --production=false && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/footlessbird/voting-app.git"
+  },
+  "keywords": [],
+  "author": "footlessbird",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/footlessbird/voting-app/issues"
+  },
+  "homepage": "https://github.com/footlessbird/voting-app#readme"
+}
