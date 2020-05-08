@@ -23,6 +23,7 @@ function App() {
   const { isAuthenticated } = auth;
 
   useEffect(() => {
+    console.log("App rendered?");
     dispatch(fetchUser());
   }, []);
   console.log("R u authenticated? ", isAuthenticated);
