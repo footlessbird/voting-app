@@ -26,6 +26,7 @@ mongoose
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const clientBuildDir = __dirname + "/../../client/build/";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -61,10 +62,12 @@ app.use((err, req, res, next) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
+  // app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static(clientBuildDir));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    // res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    res.sendFile(path.resolve(clientBuildDir, "index.html"));
   });
 }
 
