@@ -7,10 +7,9 @@
     "npm": "6.13.7"
   },
   "scripts": {
-    "start": "cd server && npm start",
-    "postinstall": "npm run postinstall:server && npm run postinstall:client",
-    "postinstall:server": "cd server && npm install --production=false && npm run build",
-    "postinstall:client": "cd client && npm install --production=false && npm run build"
+    "heroku-postbuild": "cd client && NPM_CONFIG_PRODUCTION=false npm install && npm run build && cd server && NPM_CONFIG_PRODUCTION=false npm run build",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start"
   },
   "repository": {
     "type": "git",
