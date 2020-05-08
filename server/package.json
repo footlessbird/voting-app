@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && ([[ $NODE_ENV == 'production' ]] && node dist/index.js)",
+    "start": "npm run build && node dist/index.js",
     "dev": "tsnd index.ts",
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "footlessbird",
   "license": "ISC",
   "dependencies": {
     "@types/cookie-session": "^2.0.39",
