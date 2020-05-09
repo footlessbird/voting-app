@@ -26,7 +26,7 @@ mongoose
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const clientBuildDir = __dirname + "/../../client/build/";
+const clientBuildDir = __dirname + "/../client/build/";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -44,12 +44,14 @@ app.use(passport.session());
 app.use("/auth", routes.auth);
 app.use("/polls", routes.poll);
 
+/*
 app.use((req, res, next) => {
   let err: IError = new Error("Not Found 🤔");
   err.status = 404;
   next(err);
   // res.status(404).send("Page not found 🤔");
 });
+*/
 
 // err는 핸들러내 api 함수들 try/catch(err)에서 넘어온 친구
 app.use((err, req, res, next) => {
